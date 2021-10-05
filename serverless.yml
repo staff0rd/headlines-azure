@@ -1,0 +1,28 @@
+service: headlines-azure
+frameworkVersion: "2"
+custom:
+  webpack:
+    webpackConfig: "./webpack.config.js"
+    includeModules: true
+plugins:
+  - serverless-webpack
+provider:
+  name: azure
+  runtime: nodejs12
+  region: ap-southeast-2
+  # ramRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - oss:PutObject
+  #     Resource:
+  #       - "acs:oss:*:*:${self:custom.bucketName}/*"
+functions:
+  parseFeed:
+    handler: src/parseFeed.handle
+    # environmentVariables:
+    #   BUCKET_NAME: "${self:custom.bucketName}"
+    # events:
+    #   - timer:
+    #       triggerConfig:
+    #         cronExpression: "0 0 * * * *"
+    #         enabled: true
